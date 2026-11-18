@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shipments – CarePortal</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ===== Header / Navigation ===== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand">
+        <span class="brand-mark">C</span>
+        <span class="brand-text">CarePortal</span>
+      </a>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+        &#9776;
+      </button>
+
+      <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="equipment.html" class="nav-link">Equipment</a>
+        <a href="shipments.html" class="nav-link active" aria-current="page">Shipments</a>
+        <a href="activity.html" class="nav-link">Activity</a>
+      </nav>
+
+      <div class="user-chip" title="Training user">
+        <span class="user-dot"></span> user
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== Main content ===== -->
+  <main class="container page">
+
+    <div id="message-area" role="status" aria-live="polite"></div>
+
+    <div class="page-header">
+      <div>
+        <h1>Shipments</h1>
+        <p class="muted">Track shipments and their delivery progress.</p>
+      </div>
+      <button type="button" class="btn btn-primary" id="addShipmentBtn">+ Add Shipment</button>
+    </div>
+
+    <!-- Search + filters (they work in the browser, no server call) -->
+    <section class="card toolbar-card">
+      <div class="toolbar">
+
+        <div class="field">
+          <label for="searchInput">Search</label>
+          <input type="search" id="searchInput" placeholder="Tracking number">
+        </div>
+
+        <div class="field">
+          <label for="statusFilter">Status</label>
+          <select id="statusFilter">
+            <option value="">All statuses</option>
+            <option value="Created">Created</option>
+            <option value="Dispatched">Dispatched</option>
+            <option value="In Transit">In Transit</option>
+            <option value="Delivered">Delivered</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="equipmentFilter">Equipment</label>
+          <select id="equipmentFilter">
+            <option value="">All equipment</option>
+            <!-- shipments.js fills this with ONLY the equipment that appears in the shipment list -->
+          </select>
+        </div>
+
+        <button type="button" class="btn btn-secondary" id="clearBtn">Clear</button>
+      </div>
+    </section>
+
+    <!-- Shipment table + UI states -->
+    <section class="card">
+
+      <div id="loadingBox" class="state-box hidden">
+        <div class="spinner"></div>
+        <p>Loading shipments...</p>
+      </div>
+
+      <div id="emptyBox" class="state-box hidden">
+        <p><strong>No shipments found</strong></p>
+        <p class="muted" id="emptyHint">Create your first shipment to get started.</p>
+      </div>
+
+      <div id="errorBox" class="state-box hidden">
+        <p><strong>Something went wrong</strong></p>
+        <p class="muted" id="errorText"></p>
+        <button type="button" class="btn btn-secondary btn-sm" id="retryBtn">Retry</button>
+      </div>
+
+      <div class="table-wrap hidden" id="tableWrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Shipment ID</th>
+              <th>Tracking number</th>
+              <th>Equipment ID</th>
+              <th>Equipment name</th>
+              <th>Shipment date</th>
+              <th>Expected delivery</th>
+              <th>Actual delivery</th>
+              <th>Status</th>
+              <th>Notes</th>
+              <th>Created</th>
+              <th>Last updated</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="shipmentBody"></tbody>
+        </table>
+      </div>
+
+      <div class="pagination hidden" id="pagination">
+        <span id="pageInfo"></span>
+
+        <div class="pager-controls">
+          <button type="button" class="btn btn-secondary btn-sm" id="prevBtn">&larr; Previous</button>
+          <span id="pageLabel"></span>
+          <button type="button" class="btn btn-secondary btn-sm" id="nextBtn">Next &rarr;</button>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>CarePortal Training Module</small>
+    </div>
+  </footer>
+
+  <!-- ===== Change status popup ===== -->
+  <div class="modal-overlay hidden" id="statusModal" role="dialog" aria-modal="true" aria-labelledby="statusModalTitle">
+    <div class="modal">
+      <h2 id="statusModalTitle">Change Status</h2>
+      <p class="muted" id="statusModalName"></p>
+
+      <div class="field">
+        <label>Current status</label>
+        <div><span class="badge" id="statusModalCurrent"></span></div>
+      </div>
+
+      <div class="field">
+        <label for="newStatusSelect">New status <span class="required">*</span></label>
+        <select id="newStatusSelect"></select>
+        <span class="error-text" id="newStatusError"></span>
+      </div>
+
+      <!-- shown only when "Delivered" is selected -->
+      <div class="field hidden" id="deliveryDateField">
+        <label for="actualDeliveryDate">Actual Delivery Date <span class="required">*</span></label>
+        <input type="date" id="actualDeliveryDate">
+        <span class="error-text" id="actualDeliveryDateError"></span>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-primary" id="confirmStatusBtn">Confirm</button>
+        <button type="button" class="btn btn-secondary" id="cancelStatusBtn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Add / Edit shipment popup ===== -->
+  <div class="modal-overlay hidden" id="shipmentFormModal" role="dialog" aria-modal="true" aria-labelledby="formTitle">
+    <div class="modal modal-wide">
+      <div class="modal-head">
+        <h2 id="formTitle">Add Shipment</h2>
+        <button type="button" class="modal-close" id="closeFormBtn" aria-label="Close">&times;</button>
+      </div>
+
+      <p class="muted">Fields marked <span class="required">*</span> are required.</p>
+
+      <div id="formError" class="alert alert-error hidden"></div>
+
+      <form id="shipmentForm" novalidate>
+        <div class="form-grid">
+
+          <!-- read-only status (edit mode only) -->
+          <div class="field full hidden" id="statusField">
+            <label>Current Status</label>
+            <div><span class="badge" id="statusBadge"></span></div>
+            <span class="hint">Status is changed from the shipment list, not here.</span>
+          </div>
+
+          <div class="field full">
+            <label for="equipmentId">Equipment <span class="required">*</span></label>
+            <select id="equipmentId">
+              <option value="">Select equipment</option>
+            </select>
+            <span class="error-text" id="equipmentIdError"></span>
+          </div>
+
+          <div class="field full">
+            <label for="trackingNumber">Tracking Number <span class="required">*</span></label>
+            <input type="text" id="trackingNumber" maxlength="50" placeholder="e.g. TRK2001">
+            <span class="error-text" id="trackingNumberError"></span>
+          </div>
+
+          <div class="field">
+            <label for="shipmentDate">Shipment Date <span class="required">*</span></label>
+            <input type="date" id="shipmentDate">
+            <span class="error-text" id="shipmentDateError"></span>
+          </div>
+
+          <div class="field">
+            <label for="expectedDeliveryDate">Expected Delivery Date <span class="required">*</span></label>
+            <input type="date" id="expectedDeliveryDate">
+            <span class="error-text" id="expectedDeliveryDateError"></span>
+          </div>
+
+          <div class="field full">
+            <label for="notes">Notes</label>
+            <textarea id="notes" maxlength="500" placeholder="Optional (max 500 characters)"></textarea>
+            <span class="error-text" id="notesError"></span>
+          </div>
+
+          <p class="hint full hidden" id="lockHint">
+            Equipment and tracking number cannot be changed after a shipment is created.
+          </p>
+
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" id="submitBtn">Save Shipment</button>
+          <button type="button" class="btn btn-secondary" id="cancelFormBtn">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/common.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/shipments.js"></script>
+  <script src="js/shipment-form.js"></script>
+</body>
+</html>

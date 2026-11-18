@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Equipment - CarePortal</title>
+        <link rel="stylesheet" href="css/styles.css">
+    </head>
+    
+    <body>
+        <header class="site-header">
+            <div class="container header-inner">
+                <a href="index.html" class="brand">
+                    <span class="brand-mark">C</span>
+                    <span class="brand-text">CarePortal</span>
+                </a>
+                <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+                    &#9776;
+                </button>
+
+                <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="equipment.html" class="nav-link active" aria-current="page">Equipment</a>
+                    <a href="shipments.html" class="nav-link">Shipments</a>
+                    <a href="activity.html" class="nav-link">Activity</a>
+                </nav>
+
+                <div class="user-chip" title="Training user">
+                    <span class="user-dot"></span> user
+                </div>
+            </div>
+        </header>
+
+        <!--Main content--->
+        <main class="container page">
+            <div id="message-area" role="status" aria-live="polite">
+            </div>
+            
+            <div class="page-header">
+                <div>
+                    <h1>Equipment</h1>
+                    <p class="muted">
+                        All equipment records and their current status.
+                    </p>
+                </div>
+                <button type="button" class="btn btn-primary" id="addEquipmentBtn"> + Add Equipment</button>
+                  
+            </div>
+
+                <!-- Search + filters -->
+                <section class="card toolbar-card">
+                <div class="toolbar">
+
+                    <div class="field">
+                    <label for="searchInput">Search</label>
+                    <input type="search" id="searchInput" placeholder="Name or serial number">
+                    </div>
+
+                    <div class="field">
+                    <label for="statusFilter">Status</label>
+                    <select id="statusFilter">
+                        <option value="">All statuses</option>
+                        <option value="Requested">Requested</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                        <option value="Returned">Returned</option>
+                    </select>
+                    </div>
+
+                    <div class="field">
+                    <label for="typeFilter">Type</label>
+                    <select id="typeFilter">
+                        <option value="">All types</option>
+                        <option value="Mount">Mount</option>
+                        <option value="Respiratory">Respiratory</option>
+                        <option value="Furniture">Furniture</option>
+                        <option value="Monitoring">Monitoring</option>
+                        <option value="Mobility">Mobility</option>
+                    </select>
+                    </div>
+
+
+                    <button type="button" class="btn btn-secondary" id="clearBtn">Clear</button>
+                </div>
+                </section>
+                
+                        <!--Equipment table-->
+                        <section class="card">
+
+                            <!--Loading state-->
+                            <div id="loadingBox" class="state-box hidden">
+                                <div class="spinner"></div>
+                                <p>Loading equipment...</p>
+                            </div>
+
+                            <!--Empty state-->
+                            <div id="emptyBox" class="state-box hidden">
+                            <p><strong>
+                                No equipment found
+                            </strong></p>
+                            <p class="muted" id="emptyHint">Add your first equipment record to get started</p>
+
+                            </div>
+
+                            <!--Error state-->
+                            <div id="errorBox" class="state-box hidden">
+                                <p><strong>Something went wrong</strong></p>
+                                <p class="muted" id="errorText"></p>
+                                <button type="button" class="btn btn-secondary btn-sm" id="retryBtn">Retry</button>
+                            </div>
+
+                            <!--table-->
+                            <div class="table-wrap hidden" id="tableWrap">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                             <th>ID</th>
+                                                <th>Equipment name</th>
+                                                <th>Type</th>
+                                                <th>Manufacturer</th>
+                                                <th>Model number</th>
+                                                <th>Serial number</th>
+                                                <th>Assigned patient ID</th>
+                                                <th>Status</th>
+                                                <th>Notes</th>
+                                                <th>Created</th>
+                                                <th>Last updated</th>
+                                                <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="equipmentBody">
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!--Pagination bar-->
+                            <div class="pagination hidden" id="pagination">
+                                <span id="pageInfo"></span>
+
+                                <div class="pager-controls">
+                                    
+
+                                    <button type="button" class="btn btn-secondary btn-sm" id="prevBtn"> &larr; Previous</button>
+                                    <span id="pageLabel"></span>
+                                    <button type="button" class="btn btn-secondary btn-sm" id="nextBtn">Next &rarr;</button>
+                                </div>
+                            </div>
+                        </section>
+        </main>
+
+        <!--Footer-->
+        <footer class="site-footer">
+            <div class="container">
+                <small>CarePortal Training Module &middot; Sample data only</small>
+            </div>
+        </footer>
+
+          <!-- ===== Change status popup ===== -->
+        <div class="modal-overlay hidden" id="statusModal" role="dialog" aria-modal="true" aria-labelledby="statusModalTitle">
+            <div class="modal">
+            <h2 id="statusModalTitle">Change Status</h2>
+            <p class="muted" id="statusModalName"></p>
+
+            <div class="field">
+                <label>Current status</label>
+                <div><span class="badge" id="statusModalCurrent"></span></div>
+            </div>
+
+            <div class="field">
+                <label for="newStatusSelect">New status <span class="required">*</span></label>
+                <select id="newStatusSelect"></select>
+                <span class="error-text" id="newStatusError"></span>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn btn-primary" id="confirmStatusBtn">Confirm</button>
+                <button type="button" class="btn btn-secondary" id="cancelStatusBtn">Cancel</button>
+            </div>
+            </div>
+        </div>
+
+        <!-- ===== Add / Edit equipment popup ===== -->
+<div class="modal-overlay hidden" id="equipmentFormModal" role="dialog" aria-modal="true" aria-labelledby="formTitle">
+  <div class="modal modal-wide">
+    <div class="modal-head">
+        <h2 id="formTitle">Add Equipment</h2>
+        <button type="button" class="modal-close" id="closeFormBtn" aria-label="Close">&times;</button>
+    </div>
+    
+    <p class="muted">Fields marked <span class="required">*</span> are required.</p>
+
+    <div id="formError" class="alert alert-error hidden"></div>
+    <div id="formSuccess" class="alert alert-success hidden"></div>
+
+    <form id="equipmentForm" novalidate>
+      <div class="form-grid">
+
+        <div class="field full hidden" id="statusField">
+          <label>Current Status</label>
+          <div><span class="badge" id="statusBadge"></span></div>
+          <span class="hint">Status is changed from the equipment list, not here.</span>
+        </div>
+
+        <div class="field">
+          <label for="equipmentName">Equipment Name <span class="required">*</span></label>
+          <input type="text" id="equipmentName" maxlength="100" placeholder="e.g. Pedestal Mount">
+          <span class="error-text" id="equipmentNameError"></span>
+        </div>
+
+        <div class="field">
+          <label for="equipmentType">Equipment Type <span class="required">*</span></label>
+          <select id="equipmentType">
+            <option value="">Select a type</option>
+            <option value="Mount">Mount</option>
+            <option value="Respiratory">Respiratory</option>
+            <option value="Furniture">Furniture</option>
+            <option value="Monitoring">Monitoring</option>
+            <option value="Mobility">Mobility</option>
+          </select>
+          <span class="error-text" id="equipmentTypeError"></span>
+        </div>
+
+        <div class="field">
+          <label for="manufacturer">Manufacturer <span class="required">*</span></label>
+          <input type="text" id="manufacturer" maxlength="100">
+          <span class="error-text" id="manufacturerError"></span>
+        </div>
+
+        <div class="field">
+          <label for="modelNumber">Model Number <span class="required">*</span></label>
+          <input type="text" id="modelNumber" maxlength="50">
+          <span class="error-text" id="modelNumberError"></span>
+        </div>
+
+        <div class="field">
+          <label for="serialNumber">Serial Number <span class="required">*</span></label>
+          <input type="text" id="serialNumber" maxlength="50" placeholder="e.g. SN-2001">
+          <span class="error-text" id="serialNumberError"></span>
+        </div>
+
+        <div class="field">
+          <label for="assignedPatientId">Assigned Patient ID</label>
+          <input type="text" id="assignedPatientId" maxlength="50" placeholder="Optional">
+          <span class="error-text" id="assignedPatientIdError"></span>
+        </div>
+
+        <div class="field full">
+          <label for="notes">Notes</label>
+          <textarea id="notes" maxlength="500" placeholder="Optional (max 500 characters)"></textarea>
+          <span class="error-text" id="notesError"></span>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" id="submitBtn">Save Equipment</button>
+        <button type="button" class="btn btn-secondary" id="cancelFormBtn">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+        <script src="js/common.js"></script>
+        <script src="js/api.js"></script>
+        <script src="js/equipment.js"></script>
+        <script src="js/equipment-form.js"></script>
+    </body>
+</html>
+
+

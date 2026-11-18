@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activity History – CarePortal</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ===== Header / Navigation (same as other pages) ===== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand">
+        <span class="brand-mark">C</span>
+        <span class="brand-text">CarePortal</span>
+      </a>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+        &#9776;
+      </button>
+
+      <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="equipment.html" class="nav-link">Equipment</a>
+        <a href="shipments.html" class="nav-link">Shipments</a>
+        <a href="activity.html" class="nav-link active" aria-current="page">Activity</a>
+      </nav>
+
+      <div class="user-chip" title="Training user">
+        <span class="user-dot"></span> user
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== Main content ===== -->
+  <main class="container page">
+
+    <div id="message-area" role="status" aria-live="polite"></div>
+
+    <div class="page-header">
+      <div>
+        <h1>Activity History</h1>
+        <p class="muted">A read-only record of changes to equipment and shipments, newest first.Records cannot be edited or deleted.</p>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <section class="card toolbar-card">
+      <div class="toolbar">
+
+        <div class="field">
+          <label for="entityTypeFilter">Entity Type</label>
+          <select id="entityTypeFilter">
+            <option value="">All types</option>
+            <option value="EQUIPMENT">Equipment</option>
+            <option value="SHIPMENT">Shipment</option>
+          </select>
+        </div>
+
+        <div class="field">
+        <label for="searchBox">Search</label>
+        <input type="text" id="searchBox" placeholder="Search anything: name, user, action, ID...">
+      </div>
+
+        <button type="button" class="btn btn-secondary" id="clearBtn">Clear</button>
+      </div>
+    </section>
+
+    <!-- Activity table + UI states -->
+    <section class="card">
+
+      <!-- Loading state -->
+      <div id="loadingBox" class="state-box hidden">
+        <div class="spinner"></div>
+        <p>Loading activity...</p>
+      </div>
+
+      <!-- Empty state -->
+      <div id="emptyBox" class="state-box hidden">
+        <p><strong>No activity found</strong></p>
+        <p class="muted" id="emptyHint">Activity will appear here after equipment or shipments are added or changed.</p>
+      </div>
+
+      <!-- Error state -->
+      <div id="errorBox" class="state-box hidden">
+        <p><strong>Something went wrong</strong></p>
+        <p class="muted" id="errorText"></p>
+        <button type="button" class="btn btn-secondary btn-sm" id="retryBtn">Retry</button>
+      </div>
+
+      <!-- Table -->
+      <div class="table-wrap hidden" id="tableWrap">
+        <table>
+          <thead>
+            <tr>
+              <th>When</th>
+              <th>Entity</th>
+              <th>Action</th>
+              <th>Description</th>
+              <th>Changes</th>
+              <th>User</th>
+            </tr>
+          </thead>
+          <tbody id="activityBody">
+            <!-- rows are added here by activity.js -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination bar -->
+      <div class="pagination hidden" id="pagination">
+        <span id="pageInfo"></span>
+
+        <div class="pager-controls">
+
+          <button type="button" class="btn btn-secondary btn-sm" id="prevBtn">&larr; Previous</button>
+          <span id="pageLabel"></span>
+          <button type="button" class="btn btn-secondary btn-sm" id="nextBtn">Next &rarr;</button>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <div class="container">
+      <small>CarePortal Training Module &middot; Sample data only</small>
+    </div>
+  </footer>
+
+  <script src="js/common.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/activity.js"></script>
+</body>
+</html>

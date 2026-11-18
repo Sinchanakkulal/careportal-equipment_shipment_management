@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>CarePortal- Equipment &amp; Shipment Management</title>
+        <link rel="stylesheet" href="css/styles.css">
+    </head>
+    <body>
+
+        <header class="site-header">
+            <div class="container header-inner">
+                <a href="index.html" class="brand">
+                    <span class="brand-mark">C</span>
+                    <span class="brand-text">CarePortal</span>
+                </a>
+
+                <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+                    &#9776;
+                </button>
+
+                <nav  class="main-nav" id="mainNav" aria-label="Main naviagtion">
+                    <a href="index.html" class="nav-link active" aria-current="page">Home</a>
+                    <a href="equipment.html" class="nav-link">Equipment</a>
+                    <a href="shipment.html" class="nav-link">Shipments</a>
+                    <a href="activity.html" class="nav-link">Activity</a>
+                </nav>
+
+                <div class="user-chip" title="Training user">
+                    <span class="user-dot"></span>user
+                </div>
+            </div>
+        </header>
+
+        <!--main content-->
+        <main class="container page">
+            
+            <!--Global message area (success/error message shown here)-->
+            <div id="message-area" role="status" aria-live="polite"></div>
+
+            <section class="hero">
+                <h1>Equipment &amp; Shipment management</h1>
+                <p class="muted">
+                    manage patient equipemnt,track shipments and review the full
+                    history of every charge in one place.
+                </p>
+            </section>
+
+            <!--module cards-->
+            <section class="card-grid" aria-label="Modules">
+                <article class="card module-card">
+                    <div class="module-icon">&#9881; </div>
+                    <h2>Equipment</h2>
+                    <p class="muted">
+                        view,search and filter equipmetn records ,edit details,and move equipment through its status workflow.
+                    </p>
+                    <div class="card-actions">
+                        <a href="equipment.html" class="btn btn-primary">View Equipment</a>
+                        <!-- <a href="equipment.html?add=1" class="btn btn-secondary">+ Add Equipment</a> -->
+
+                    </div>
+                </article>
+
+                <article class="card module-card">
+                    <div class="module-icon"> &#128230; </div>
+                    <h2>Shipments</h2>
+                    <p class="muted">
+                        Create shipments for equipment,track delivery progress, and update shipment status.
+
+                    </p>
+                    <div class="card-actions">
+                        <a href="shipments.html" class="btn btn-primary">View Shipments</a>
+                        
+
+                    </div>
+                </article>
+
+                <article class="card module-card">
+                    <div class="module-icon"> &#128221; </div> 
+                    <h2>Activity History</h2>
+                    <p class="muted">
+                        A read only log of two charged what and when, with old 
+                        and new values for every operation.
+                    </p>
+                    <div class="card-actions">
+                        <a href="activity.html" class="btn btn-primary">View Activity</a>
+
+                    </div>
+                </article>
+            </section>
+
+            <!--Status workflow reference-->
+            <section class="card workflow-card">
+                <h2>Status workflow</h2>
+                <p class="muted">Statuses move one step at a time.Terminal statueses cannot be changed</p>
+
+                <div class="workflow-block">
+                    <h3>Equipment</h3>
+                    <div class="flow">
+                        <span class="badge badge-requested">Requested</span>
+                        <span class="arrow"> &rarr; </span>
+                        <span class="badge badge-approved">Approved</span>
+                        <span class="arrow"> &rarr;</span>
+                        <span class="badge badge-active">Active</span>
+                        <span class="arrow"> &rarr;</span>
+                        <span class="badge badge-inactive">Inactive</span>
+                        <span class="arrow"> &rarr;</span>
+                        <span class="badge badge-returned">Returned</span>
+                        
+                    </div>
+                    <p class="hint">Returned is final.Active or Inactive can move to Returned.</p>
+                </div>
+
+                <div class="workflow-block">
+                    <h3>Shipment</h3>
+                    <div class="flow">
+                        <span class="badge badge-created">Created</span>
+                        <span class="arrow"> &rarr; </span>
+                        <span class="badge badge-dispatched">Dispatched</span>
+                        <span class="arrow"> &rarr; </span>
+                        <span class="badge badge-in-transit">In Transit</span>
+                        <span class="arrow"> &rarr; </span>
+                        <span class="badge badge-delivered">Delivered</span>
+                        
+                    </div>
+                    <p class="hint">
+                        <span class="badge badge-cancelled">Cancelled</span>
+                        is allowed from Created, Dispatched or In Transit. Delivered and Cancelled are final.
+                    </p>
+                </div>
+            </section>
+        </main>
+
+        <!--footer-->
+        <footer class="site-footer">
+            <div class="container">
+                <small>CarePortal Training module &middot; Sample data only</small>
+
+            </div>
+        </footer>
+
+        <script src="js/common.js"></script>
+    </body>
+</html>

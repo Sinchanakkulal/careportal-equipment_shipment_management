@@ -1,0 +1,27 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# An example controller showing a sample home page
+GET     /                           controllers.HomeController.index()
+
+#Equipment
+POST    /api/equipment    controllers.EquipmentController.create(request: Request)
+GET     /api/equipment    controllers.EquipmentController.list()
+GET     /api/equipment/:id     controllers.EquipmentController.get(id: Long)
+PUT     /api/equipment/:id      controllers.EquipmentController.update(request: Request, id: Long)
+PATCH   /api/equipment/:id/status   controllers.EquipmentController.changeStatus(request: Request, id: Long)
+
+# Shipments
+POST    /api/shipments                  controllers.ShipmentController.create(request: Request)
+GET     /api/shipments                  controllers.ShipmentController.list()
+GET     /api/shipments/:id              controllers.ShipmentController.get(id: Long)
+PUT     /api/shipments/:id              controllers.ShipmentController.update(request: Request, id: Long)
+PATCH   /api/shipments/:id/status       controllers.ShipmentController.changeStatus(request: Request, id: Long)
+
+#Activity
+GET     /api/activity                   controllers.ActivityController.list()
+
+#Frontend files from the public/ folder
+GET     /assets/*file            controllers.Assets.versioned(path="/public", file: Asset)
+

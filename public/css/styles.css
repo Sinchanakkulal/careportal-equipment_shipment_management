@@ -1,0 +1,677 @@
+:root{
+    --primary: #1f6feb;
+    --primary-dark: #1757bd;
+    --bg: #f4f6fa;
+    --surface: #ffffff;
+    --text: #1c2430;
+    --muted: #6b7686;
+    --border: #dde2ea;
+    --success: #1f9d55;
+    --radius:10px;
+    --shadow:0 1px 3px rgba(16,24,40,0.08);
+}
+
+/*--reset and base--*/
+*{
+    box-sizing: border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.5;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+}
+
+a{
+    color:var(--primary);
+    text-decoration: none;
+}
+
+a:hover{
+    text-decoration: underline;
+}
+
+
+/*--layout and wrapper---*/
+.container{
+    width:100%;
+    max-width:1100px;
+    margin: 0 auto;
+    padding:0 1rem;
+}
+
+/*--Header--*/
+.site-header{
+    background:var(--surface);
+    border-bottom:1px solid var(--border);
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.header-inner{
+    display: flex;
+    align-items: center;
+    gap:1.5rem;
+    min-height:60px;
+}
+
+/*--Brand(logo name)--*/
+.brand{
+    display:flex;
+    align-items: center;
+    gap:0.5rem;
+    color:var(--text);
+    font-weight: 700;
+    font-size:1.15rem;
+}
+
+.brand:hover{
+    text-decoration: none;
+}
+
+.brand-mark{
+    width:32px;
+    height: 32px;
+    background: var(--primary);
+    color:#fff;
+    border-radius: 8px;
+    display:grid;
+    place-items:center;
+}
+
+/*----Navigation links--------*/
+.main-nav{
+    display: flex;
+    gap:0.25rem;
+    flex:1;
+}
+
+.nav-link{
+    padding:0.5rem 0.9rem;
+    border-radius:8px;
+    color:var(--muted);
+    font-weight:500;
+}
+.nav-link:hover{
+    background:var(--bg);
+    text-decoration:none;
+    color:var(--text);
+}
+.nav-link.active{
+    background:#e8f0fe;
+    color:var(--primary);
+}
+
+/*--user chip ---*/
+.user-chip{
+    display: flex;
+    align-items: center;
+    gap:0.4rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+    background: var(--bg);
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+}
+
+.user-dot{
+    width:8px;
+    height:8px;
+    background: var(--success);
+    border-radius: 50%;
+}
+
+/*Hamburger button---*/
+.nav-toggle{
+    display: none;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size:1.3rem;
+    padding:0.2rem 0.6rem;
+    cursor: pointer;
+}
+
+/*--Tablet/mobile:nav becomes dropdown---*/
+@media(max-width:900px){
+    .nav-toggle{ 
+        display: block;
+        margin-left: auto;
+    }
+
+    .main-nav{
+        display: none;
+        position: absolute;
+        top:60px; left:0; right:0;
+        flex-direction: column;
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+        padding:0.5rem 1rem;
+    }
+
+    .main-nav.open{
+        display: flex;
+    }
+    .user-chip{
+        display: none;
+    }
+}
+
+/* =========================================================
+   FEATURE 2: Page layout, hero, module cards, buttons, footer
+   ========================================================= */
+
+/*--Text styles--*/
+h1{
+    font-size:1.7rem;
+    margin-bottom:0.4rem;
+}
+h2{
+    font-size:1.25rem;
+    margin-bottom:0.4rem;
+}
+h3{
+    font-size:1rem;
+    margin-bottom:0.5rem;
+}
+
+.muted{
+    color:var(--muted);
+}
+
+/*--page area---*/
+.page{
+    flex: 1;
+    padding-top:1.5rem;
+    padding-bottom:2rem;
+}
+
+.hero{
+    margin-bottom:1.5rem;
+}
+
+/*--card(reusable box)--*/
+.card{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.25rem;
+}
+
+.card-grid {
+    display:flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.module-icon {
+    width: 44px;
+    height: 44px;
+    background: #e8f0fe;
+    border-radius: 10px;
+    display: grid; 
+    place-items: center;
+    font-size: 1.4rem;
+}
+.card-actions{
+    margin-top: auto;
+    padding-top: 0.8rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.btn{
+    display: inline-block;
+    padding: 0.55rem 1rem;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    font-family: inherit;
+}
+
+.btn:hover{
+    text-decoration: none;
+}
+
+.btn-primary{
+    background: var(--primary);
+    color: #fff;
+}
+
+.btn-primary:hover{
+    background: var(--primary-dark);
+}
+
+.btn-secondary{
+    background: var(--primary);
+    color: #fff;
+    /* border-color: var(--primary); */
+}
+.btn-secondary:hover{
+    background: var(--primary-dark);
+}
+
+/*--footer---*/
+.site-footer{
+    border-top:1px solid var(--border);
+    background: var(--surface);
+    padding: 1rem 0;
+    text-align: center;
+    color: var(--muted);
+}
+
+
+/*--small screens ----*/
+@media(max-width: 480px) {
+    h1{
+        font-size:1.4rem;
+    }
+}
+
+/*--FEature 3---*/
+.workflow-card{
+    margin-bottom: 1rem;
+}
+
+.workflow-block{
+    margin-top: 1rem;
+}
+
+.flow{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.arrow{
+    color: var(--muted);
+}
+
+.hint{
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+}
+
+.badge{
+    display: inline-block;
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.badge-requested{ background: #e9ecf1; color: #566070;}
+.badge-approved{ background: #e9ecf1; color: #566070;}
+.badge-active { background: #e9ecf1; color: #566070; }
+.badge-inactive {background: #e9ecf1; color: #566070;}
+.badge-returned   { background: #e9ecf1; color: #566070; }
+
+.badge-created    { background: #e9ecf1; color: #566070; }   /* grey   */
+.badge-dispatched { background: #e9ecf1; color: #566070; }   /* blue   */
+.badge-in-transit { background: #e9ecf1; color: #566070; }   /* yellow */
+.badge-delivered  { background: #e9ecf1; color: #566070; }   /* green  */
+.badge-cancelled  { background: #e9ecf1; color: #566070; }  
+
+/* ---Page header---*/
+.page-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap:wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+/*--table---*/
+.table-wrap{
+    overflow-x: auto;
+}
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td{
+    text-align: left;
+    padding: 0.7rem 0.8rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.92rem;
+}
+th {
+    background: #f8fafc;
+    color: var(--muted);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;;
+}
+tbody tr:hover{
+    background: #fafbfd;
+}
+.btn-sm{
+    padding: 0.3rem 0.65rem;
+    font-size: 0.85rem;
+}
+
+/*--Feature 5--*/
+/*--Loading,empty and error states--*/
+.hidden { display: none !important; }
+
+/* box used for loading / empty / error messages */
+.state-box {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: var(--muted);
+}
+.state-box .btn { margin-top: 0.75rem; }
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 4px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.5s linear infinite;
+  margin: 0 auto 0.75rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* =========================================================
+   FEATURE 6: Search & filter toolbar (also the base form field styles)
+   ========================================================= */
+
+.toolbar-card { margin-bottom: 1rem; }
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: flex-end;         /* aligns the Clear button with the inputs */
+}
+.toolbar .field { flex: 1 1 180px; margin-bottom: 0; }
+
+/* ---------- Field = label + input stacked ---------- */
+.field { display: flex; flex-direction: column; }
+
+.field label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+}
+
+/* ---------- Inputs and dropdowns ---------- */
+input[type="search"],
+select {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  background: #fff;
+  color: var(--text);
+}
+
+input:focus, select:focus {
+  outline: 2px solid #b9d2fb;
+  border-color: var(--primary);
+}
+
+@media (max-width: 480px) {
+  .toolbar .field { flex: 1 1 100%; }
+}
+
+/* =========================================================
+   FEATURE 7: Forms, validation messages, alert banners
+   ========================================================= */
+
+/* ---------- Form layout ---------- */
+.form-card { max-width: 800px; }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);     /* two columns on desktop */
+  gap: 0 1rem;
+}
+.form-grid .full { grid-column: 1 / -1; }    /* spans both columns */
+
+.form-grid .field { margin-bottom: 1rem; }
+
+.required { color: #d33a3a; }                /* the red * */
+
+/* ---------- Text inputs and textarea (search + select already styled) ---------- */
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  background: #fff;
+  color: var(--text);
+}
+textarea { min-height: 90px; resize: vertical; }
+
+input[type="text"]:focus,
+textarea:focus {
+  outline: 2px solid #b9d2fb;
+  border-color: var(--primary);
+}
+
+/* ---------- Validation state: JS adds .invalid to the .field box ---------- */
+.field.invalid input,
+.field.invalid select,
+.field.invalid textarea { border-color: #d33a3a; }
+
+.error-text {
+  color: #d33a3a;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  min-height: 1em;
+}
+
+/* ---------- Buttons row ---------- */
+.form-actions { display: flex; gap: 0.6rem; margin-top: 0.5rem; }
+
+/* disabled button while a request is running */
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* ---------- Success / error banners (shown in #message-area) ---------- */
+#message-area { margin-bottom: 1rem; }
+
+.alert {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+.alert-success { background: #e7f7ee; border-color: #a8e0c1; color: #14683a; }
+.alert-error   { background: #fdecec; border-color: #f3b6b6; color: #922020; }
+
+.alert-close {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: inherit;
+}
+
+/* ---------- Tablet / mobile: one column ---------- */
+@media (max-width: 900px) {
+  .form-grid { grid-template-columns: 1fr; }
+}
+
+/* buttons inside a table row, side by side */
+.row-actions {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* ---------- Modal: dark overlay + white box in the centre ---------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;                                  /* covers the whole screen */
+  background: rgba(16, 24, 40, 0.5);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  z-index: 200;                              /* above the sticky header */
+}
+
+.modal {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 460px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.modal-head{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+.modal-head h2 { margin: 0; }
+
+.modal-close{
+    background: none;
+    border: 0;
+    font-size: 1.75rem;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--muted);
+    padding: 0 0.25rem;
+}
+.modal-close:hover{
+    color: inherit;
+}
+.modal-close:disabled{
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+.modal-wide { max-width: 720px; }
+
+.modal .field { margin-bottom: 1rem; }
+
+/*--pagination--*/
+.pagination{
+    display: flex;
+    justify-content : space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding-top: 1rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.pager-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pagination select {
+  width: auto;
+  padding: 0.3rem 0.5rem;
+}
+
+input[type="date"] {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  background: #fff;
+  color: var(--text);
+}
+
+input[type="date"]:focus {
+  outline: 2px solid #b9d2fb;
+  border-color: var(--primary);
+}
+
+.status-card { margin-top: 1rem; }
+.status-card .field { margin-bottom: 1rem; }
+
+/* ---------- Action badges ---------- */
+.badge-add           { background: #d9f5e5; color: #137a3f; }   /* green  */
+.badge-edit          { background: #dbeafe; color: #1e4fa8; }   /* blue   */
+.badge-status-change { background: #fff4d6; color: #8a6100; }   /* yellow */
+
+/* ---------- Table cells ---------- */
+.nowrap { white-space: nowrap; }
+
+.changes-cell { font-size: 0.85rem; min-width: 180px; }
+.change-block { margin-bottom: 0.4rem; word-break: break-word; }
+.change-block:last-child { margin-bottom: 0; }
+.change-label {
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+.change-key { color: var(--muted); }
+
+/* ---------- Filter toolbar: keep the Clear button aligned with the inputs ---------- */
+.toolbar .error-text { min-height: 0; margin-top: 0; }
+
+/* ---------- Disabled inputs (also used by the locked fields in the shipment form) ---------- */
+input:disabled, select:disabled, textarea:disabled {
+  background: #f1f3f7;
+  cursor: not-allowed;
+}
+.badge-readonly {
+  background: #e9ecf1;
+  color: #566070;
+  font-size: 0.7rem;
+  vertical-align: middle;
+  margin-left: 0.4rem;
+}
+.entity-name { font-weight: 600; }
+
+.entity-sub {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+/* long text (notes) is cut with ... so rows stay one line high */
+.cell-clip {
+  display: block;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nowrap { white-space: nowrap; }
+
